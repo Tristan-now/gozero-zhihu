@@ -83,7 +83,7 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 		Mobile: mobile,
 	})
 	if err != nil {
-		logx.Errorf("FIndByMobile error: %v", err)
+		logx.Errorf("FindByMobile error: %v", err)
 		return nil, err
 	}
 
