@@ -3,7 +3,7 @@ package interceptors
 import (
 	"context"
 
-	"beyond/pkg/xcode"
+	"gozero_init/pkg/xcode"
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"

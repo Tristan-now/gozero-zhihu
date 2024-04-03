@@ -1,6 +1,6 @@
 package code
 
-import "beyond/pkg/xcode"
+import "gozero_init/pkg/xcode"
 
 var (
 	RegisterMobileEmpty   = xcode.New(10001, "注册手机号不能为空")
