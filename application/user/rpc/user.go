@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"gozero_init/pkg/interceptors"
 
 	"gozero_init/application/user/rpc/internal/config"
 	"gozero_init/application/user/rpc/internal/server"
 	"gozero_init/application/user/rpc/internal/svc"
-	// issus_1:不能自动为包重命名，有包名冲突
+	// issue_1:不能自动为包重命名，有包名冲突
 	"gozero_init/application/user/rpc/service"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -33,6 +34,10 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+
+	//自定义拦截器
+	s.AddUnaryInterceptors(interceptors.ServerErrorInterceptor())
+
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

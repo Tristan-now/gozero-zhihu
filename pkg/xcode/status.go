@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"beyond/pkg/xcode/types"
+	"gozero_init/pkg/xcode/types"
 
 	"github.com/golang/protobuf/ptypes"
 	"github.com/pkg/errors"

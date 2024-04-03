@@ -69,7 +69,6 @@ func (l *VerficationLogic) incrVerificationCount(mobile string) error {
 }
 
 func (l *VerficationLogic) Verfication(req *types.VerificationRequest) (resp *types.VerificationResponse, err error) {
-	// todo: add your logic here and delete this line
 	count, err := l.getVerificationCount(req.Mobile)
 	if err != nil {
 		logx.Errorf("getVerificationCount mobvile:%s error : %v", req.Mobile, err)
