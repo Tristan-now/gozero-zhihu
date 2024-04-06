@@ -24,8 +24,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/verfication",
-				Handler: VerficationHandler(serverCtx),
+				Path:    "/verification",
+				Handler: VerificationHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/v1"),

@@ -1,14 +1,15 @@
 syntax = "proto3";
 
 package service;
-option go_package = "./service";
+option go_package="./service";
 
-service User{
+service User {
   rpc Register(RegisterRequest) returns (RegisterResponse);
-  rpc FindByID(FindByIdRequest) returns (FindByIdResponse);
+  rpc FindById(FindByIdRequest) returns (FindByIdResponse);
   rpc FindByMobile(FindByMobileRequest) returns (FindByMobileResponse);
   rpc SendSms(SendSmsRequest) returns (SendSmsResponse);
 }
+
 
 message RegisterRequest {
   string username = 1;
@@ -50,3 +51,4 @@ message SendSmsRequest {
 
 message SendSmsResponse {
 }
+

@@ -14,6 +14,7 @@ type (
 	// and implement the added methods in customUserModel.
 	UserModel interface {
 		userModel
+		FindByMobile(ctx context.Context, mobile string) (*User, error)
 	}
 
 	customUserModel struct {
@@ -27,6 +28,7 @@ func NewUserModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) Us
 		defaultUserModel: newUserModel(conn, c, opts...),
 	}
 }
+
 func (m *customUserModel) FindByMobile(ctx context.Context, mobile string) (*User, error) {
 	var user User
 	err := m.QueryRowNoCacheCtx(ctx, &user, fmt.Sprintf("select %s from %s where `mobile` = ? limit 1", userRows, m.table), mobile)

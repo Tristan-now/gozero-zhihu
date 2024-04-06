@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 
 const (
 	User_Register_FullMethodName     = "/service.User/Register"
-	User_FindByID_FullMethodName     = "/service.User/FindByID"
+	User_FindById_FullMethodName     = "/service.User/FindById"
 	User_FindByMobile_FullMethodName = "/service.User/FindByMobile"
 	User_SendSms_FullMethodName      = "/service.User/SendSms"
 )
@@ -30,7 +30,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
-	FindByID(ctx context.Context, in *FindByIdRequest, opts ...grpc.CallOption) (*FindByIdResponse, error)
+	FindById(ctx context.Context, in *FindByIdRequest, opts ...grpc.CallOption) (*FindByIdResponse, error)
 	FindByMobile(ctx context.Context, in *FindByMobileRequest, opts ...grpc.CallOption) (*FindByMobileResponse, error)
 	SendSms(ctx context.Context, in *SendSmsRequest, opts ...grpc.CallOption) (*SendSmsResponse, error)
 }
@@ -52,9 +52,9 @@ func (c *userClient) Register(ctx context.Context, in *RegisterRequest, opts ...
 	return out, nil
 }
 
-func (c *userClient) FindByID(ctx context.Context, in *FindByIdRequest, opts ...grpc.CallOption) (*FindByIdResponse, error) {
+func (c *userClient) FindById(ctx context.Context, in *FindByIdRequest, opts ...grpc.CallOption) (*FindByIdResponse, error) {
 	out := new(FindByIdResponse)
-	err := c.cc.Invoke(ctx, User_FindByID_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, User_FindById_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func (c *userClient) SendSms(ctx context.Context, in *SendSmsRequest, opts ...gr
 // for forward compatibility
 type UserServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	FindByID(context.Context, *FindByIdRequest) (*FindByIdResponse, error)
+	FindById(context.Context, *FindByIdRequest) (*FindByIdResponse, error)
 	FindByMobile(context.Context, *FindByMobileRequest) (*FindByMobileResponse, error)
 	SendSms(context.Context, *SendSmsRequest) (*SendSmsResponse, error)
 	mustEmbedUnimplementedUserServer()
@@ -97,8 +97,8 @@ type UnimplementedUserServer struct {
 func (UnimplementedUserServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedUserServer) FindByID(context.Context, *FindByIdRequest) (*FindByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindByID not implemented")
+func (UnimplementedUserServer) FindById(context.Context, *FindByIdRequest) (*FindByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindById not implemented")
 }
 func (UnimplementedUserServer) FindByMobile(context.Context, *FindByMobileRequest) (*FindByMobileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindByMobile not implemented")
@@ -137,20 +137,20 @@ func _User_Register_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_FindByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _User_FindById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FindByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).FindByID(ctx, in)
+		return srv.(UserServer).FindById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: User_FindByID_FullMethodName,
+		FullMethod: User_FindById_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).FindByID(ctx, req.(*FindByIdRequest))
+		return srv.(UserServer).FindById(ctx, req.(*FindByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -203,8 +203,8 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_Register_Handler,
 		},
 		{
-			MethodName: "FindByID",
-			Handler:    _User_FindByID_Handler,
+			MethodName: "FindById",
+			Handler:    _User_FindById_Handler,
 		},
 		{
 			MethodName: "FindByMobile",

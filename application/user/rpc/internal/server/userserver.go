@@ -27,9 +27,9 @@ func (s *UserServer) Register(ctx context.Context, in *service.RegisterRequest) 
 	return l.Register(in)
 }
 
-func (s *UserServer) FindByID(ctx context.Context, in *service.FindByIdRequest) (*service.FindByIdResponse, error) {
-	l := logic.NewFindByIDLogic(ctx, s.svcCtx)
-	return l.FindByID(in)
+func (s *UserServer) FindById(ctx context.Context, in *service.FindByIdRequest) (*service.FindByIdResponse, error) {
+	l := logic.NewFindByIdLogic(ctx, s.svcCtx)
+	return l.FindById(in)
 }
 
 func (s *UserServer) FindByMobile(ctx context.Context, in *service.FindByMobileRequest) (*service.FindByMobileResponse, error) {

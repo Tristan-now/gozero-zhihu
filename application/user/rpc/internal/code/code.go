@@ -1,7 +1,7 @@
 package code
 
 import (
-	"beyond/pkg/xcode"
+	"gozero_init/pkg/xcode"
 )
 
 var (

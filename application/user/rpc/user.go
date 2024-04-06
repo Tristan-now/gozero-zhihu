@@ -3,16 +3,14 @@ package main
 import (
 	"flag"
 	"fmt"
-	"gozero_init/pkg/interceptors"
 
 	"gozero_init/application/user/rpc/internal/config"
 	"gozero_init/application/user/rpc/internal/server"
 	"gozero_init/application/user/rpc/internal/svc"
-	// issue_1:不能自动为包重命名，有包名冲突
 	"gozero_init/application/user/rpc/service"
 
 	"github.com/zeromicro/go-zero/core/conf"
-	cs "github.com/zeromicro/go-zero/core/service"
+	"github.com/zeromicro/go-zero/core/service"
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -30,14 +28,10 @@ func main() {
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
 		service.RegisterUserServer(grpcServer, server.NewUserServer(ctx))
 
-		if c.Mode == cs.DevMode || c.Mode == cs.TestMode {
+		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
 		}
 	})
-
-	//自定义拦截器
-	s.AddUnaryInterceptors(interceptors.ServerErrorInterceptor())
-
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

@@ -41,18 +41,25 @@ type (
 	}
 
 	User struct {
-		Id         int64     `db:"id"` // ID
-		Username   string    `db:"username"`
-		Avatar     string    `db:"avatar"`
-		Mobile     string    `db:"mobile"`
-		CreateTime time.Time `db:"create_time"`
-		UpdateTime time.Time `db:"update_time"`
+		Id         int64     `db:"id"`          // 主键ID
+		Username   string    `db:"username"`    // 用户名
+		Avatar     string    `db:"avatar"`      // 头像
+		Mobile     string    `db:"mobile"`      // 手机号
+		CreateTime time.Time `db:"create_time"` // 创建时间
+		UpdateTime time.Time `db:"update_time"` // 最后修改时间
 	}
 )
 
 func newUserModel(conn sqlx.SqlConn, c cache.CacheConf, opts ...cache.Option) *defaultUserModel {
 	return &defaultUserModel{
 		CachedConn: sqlc.NewConn(conn, c, opts...),
+		table:      "`user`",
+	}
+}
+
+func (m *defaultUserModel) withSession(session sqlx.Session) *defaultUserModel {
+	return &defaultUserModel{
+		CachedConn: m.CachedConn.WithSession(session),
 		table:      "`user`",
 	}
 }

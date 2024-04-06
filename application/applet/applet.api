@@ -41,8 +41,8 @@ service applet-api {
 	@handler RegisterHandler
 	post /register (RegisterRequest) returns (RegisterResponse)
 
-	@handler VerficationHandler
-	post /verfication (VerificationRequest) returns (VerificationResponse)
+	@handler VerificationHandler
+	post /verification (VerificationRequest) returns (VerificationResponse)
 
 	@handler LoginHandler
 	post /login (LoginRequest) returns (LoginResponse)

@@ -1,0 +1,61 @@
+#Name: article-api
+#Host: 0.0.0.0
+#Port: 8889
+#Auth:
+#  AccessSecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#  AccessExpire: 604800
+#  RefreshSecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#  RefreshExpire: 2592000
+#  RefreshAfter: 604800
+#Oss:
+#  Endpoint: oss-cn-shanghai.aliyuncs.com
+#  AccessKeyId: xxxxxxxxxxxxxxxxxxxx
+#  AccessKeySecret: xxxxxxxxxxxxxxxxxxxx
+#  BucketName: beyond-article
+#ArticleRPC:
+#  Etcd:
+#    Hosts:
+#      - 127.0.0.1:2379
+#    Key: article.rpc
+#  NonBlock: true
+#UserRPC:
+#  Etcd:
+#    Hosts:
+#      - 127.0.0.1:2379
+#    Key: user.rpc
+#  NonBlock: true
+#Prometheus:
+#  Host: 0.0.0.0
+#  Port: 9101
+#  Path: /metrics
+
+Name: article-api
+Host: 0.0.0.0
+Port: 8889
+Auth:
+  AccessSecret: RQKBVxdG4az5IN64eQ5WxpWXfx8GKt
+  AccessExpire: 604800
+  RefreshSecret: RQKBVxdG4az5IN64eQ5WxpWXfx8GKd
+  RefreshExpire: 2592000
+  RefreshAfter: 604800
+Oss:
+  Endpoint: oss-cn-nanjing.aliyuncs.com
+  AccessKeyId: LTAI5tCcvnUrtCQYDjWFb4wr
+  AccessKeySecret: RQKBVxdG4az5IN64eQ5WxpWXfx8GKt
+  BucketName: gozero-article
+ArticleRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: article.rpc
+  NonBlock: true
+UserRPC:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+  NonBlock: true
+Prometheus:
+  Host: 0.0.0.0
+  Port: 9101
+  Path: /metrics

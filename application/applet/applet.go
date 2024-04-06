@@ -3,9 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/zeromicro/go-zero/rest/httpx"
-	"gozero_init/pkg/xcode"
-
 	"gozero_init/application/applet/internal/config"
 	"gozero_init/application/applet/internal/handler"
 	"gozero_init/application/applet/internal/svc"
@@ -29,7 +26,7 @@ func main() {
 	handler.RegisterHandlers(server, ctx)
 
 	//自定义错误处理方法
-	httpx.SetErrorHandler(xcode.ErrHandler)
+	//httpx.SetErrorHandler(xcode.ErrHandler)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

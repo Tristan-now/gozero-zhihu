@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -9,7 +10,7 @@ import (
 	"gozero_init/application/applet/internal/types"
 )
 
-func VerficationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func VerificationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.VerificationRequest
 		if err := httpx.Parse(r, &req); err != nil {
@@ -17,8 +18,9 @@ func VerficationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := logic.NewVerficationLogic(r.Context(), svcCtx)
-		resp, err := l.Verfication(&req)
+		l := logic.NewVerificationLogic(r.Context(), svcCtx)
+		fmt.Println("handler ver start")
+		resp, err := l.Verification(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

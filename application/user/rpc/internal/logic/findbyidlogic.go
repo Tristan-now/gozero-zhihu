@@ -2,31 +2,30 @@ package logic
 
 import (
 	"context"
-
 	"gozero_init/application/user/rpc/internal/svc"
 	"gozero_init/application/user/rpc/service"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FindByIDLogic struct {
+type FindByIdLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 	logx.Logger
 }
 
-func NewFindByIDLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindByIDLogic {
-	return &FindByIDLogic{
+func NewFindByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindByIdLogic {
+	return &FindByIdLogic{
 		ctx:    ctx,
 		svcCtx: svcCtx,
 		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *FindByIDLogic) FindByID(in *service.FindByIdRequest) (*service.FindByIdResponse, error) {
+func (l *FindByIdLogic) FindById(in *service.FindByIdRequest) (*service.FindByIdResponse, error) {
 	user, err := l.svcCtx.UserModel.FindOne(l.ctx, in.UserId)
 	if err != nil {
-		logx.Errorf("FIndById userId: %d error: %v", in.UserId, err)
+		logx.Errorf("FindById userId: %d error: %v", in.UserId, err)
 		return nil, err
 	}
 

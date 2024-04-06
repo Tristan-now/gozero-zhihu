@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	preFixActivation = "biz#activation#%s"
+	prefixActivation = "biz#activation#%s"
 )
 
 type RegisterLogic struct {
@@ -34,22 +34,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func checkVerificationCode(rds *redis.Redis, mobile, code string) error {
-	cacheCode, err := getActivationCache(mobile, rds)
-	if err != nil {
-		return err
-	}
-	if cacheCode == "" {
-		return errors.New("verification code expired")
-	}
-	if cacheCode != code {
-		return errors.New("verification code failed")
-	}
-	return nil
-}
-
-func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.RegisterResponse, err error) {
-	// todo: add your logic here and delete this line
+func (l *RegisterLogic) Register(req *types.RegisterRequest) (*types.RegisterResponse, error) {
 	req.Name = strings.TrimSpace(req.Name)
 	req.Mobile = strings.TrimSpace(req.Mobile)
 	if len(req.Mobile) == 0 {
@@ -61,24 +46,20 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 	} else {
 		req.Password = encrypt.EncPassword(req.Password)
 	}
-
 	req.VerificationCode = strings.TrimSpace(req.VerificationCode)
 	if len(req.VerificationCode) == 0 {
 		return nil, code.VerificationCodeEmpty
 	}
-
-	err = checkVerificationCode(l.svcCtx.BizRedis, req.Mobile, req.VerificationCode)
+	err := checkVerificationCode(l.svcCtx.BizRedis, req.Mobile, req.VerificationCode)
 	if err != nil {
 		logx.Errorf("checkVerificationCode error: %v", err)
 		return nil, err
 	}
-
 	mobile, err := encrypt.EncMobile(req.Mobile)
 	if err != nil {
-		logx.Errorf("EncMobile mobileL %s error: %v", req.Mobile, err)
+		logx.Errorf("EncMobile mobile: %s error: %v", req.Mobile, err)
 		return nil, err
 	}
-
 	u, err := l.svcCtx.UserRPC.FindByMobile(l.ctx, &user.FindByMobileRequest{
 		Mobile: mobile,
 	})
@@ -86,7 +67,6 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 		logx.Errorf("FindByMobile error: %v", err)
 		return nil, err
 	}
-
 	if u != nil && u.UserId > 0 {
 		return nil, code.MobileHasRegistered
 	}
@@ -94,20 +74,17 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 		Username: req.Name,
 		Mobile:   mobile,
 	})
-
 	if err != nil {
 		logx.Errorf("Register error: %v", err)
 		return nil, err
 	}
-
 	token, err := jwt.BuildTokens(jwt.TokenOptions{
 		AccessSecret: l.svcCtx.Config.Auth.AccessSecret,
 		AccessExpire: l.svcCtx.Config.Auth.AccessExpire,
 		Fields: map[string]interface{}{
-			"userID": regRet.UserId,
+			"userId": regRet.UserId,
 		},
 	})
-
 	if err != nil {
 		logx.Errorf("BuildTokens error: %v", err)
 		return nil, err
@@ -122,4 +99,19 @@ func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.Regist
 			AccessExpire: token.AccessExpire,
 		},
 	}, nil
+}
+
+func checkVerificationCode(rds *redis.Redis, mobile, code string) error {
+	cacheCode, err := getActivationCache(mobile, rds)
+	if err != nil {
+		return err
+	}
+	if cacheCode == "" {
+		return errors.New("verification code expired")
+	}
+	if cacheCode != code {
+		return errors.New("verification code failed")
+	}
+
+	return nil
 }
